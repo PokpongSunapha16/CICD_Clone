@@ -1,36 +1,35 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# CICD (Selected Topics Subject)
+65114540345  ปกป้อง สู่นภา
 
-## Getting Started
+---------------------------------
 
-First, run the development server:
+## ขั้นตอนการติดตั้งโปรเจค
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+--- Clone Project Section ----
+* เปิด Windows Command Prompt & PowerShell ที่สามารถใช้งานได้
+* cd ไปยังไดร์ฟที่ต้องการติดตั้งโปรเจค
+* พิมพ์ git clone https://github.com/PokpongSunapha16/CICD_Clone.git
+* เสร็จสิ้นการ Clone Project
+* **ปล. สามารถใช้คำสั่ง explorer . เพื่อใช้ในการเข้าไปยังตำแหน่งโฟลเดอร์โปรเจคได้**
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---------------------------------
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+! ! ! กรุณาลบ Images และ Container อื่นๆ ก่อนทำการทดสอบด้วยนะครับ เพื่อป้องกันการผิดพลาด ! ! ! 
 
-## Learn More
+--- ขั้นตอนการดำเนินการใช้งานเว็บไซต์ ---
 
-To learn more about Next.js, take a look at the following resources:
+* 1  cd CICD_Project
+(ใช้ CD เข้าไปยัง Repo ที่ได้ทำการ Clone)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+* 2 docker compose up -d
+(ใช้สร้าง docker container และ image ของโปรเจคนี้)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+**หลังจากที่ทำการ Build โปรเจคไปแล้ว ให้ทำการเปิดบราวเซอร์ และไปยัง URL เพื่อเข้าใช้งาน**
+http://localhost:3000/
 
-## Deploy on Vercel
+**! ! ! แนะนำให้ใช้รูปภาพที่มีนามสกุล .jpg หรือ .png และ มีขนาดไม่สูงมาก ในการสมัครสมาชิก ! ! !**
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+**สามารถใช้รูปภาพในโฟลเดอร์ ProfilePictureForRegister เพื่อทดสอบการสมัครได้**
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+**! ! ! กรุณาปิด MYSQL Service ใน Task Manager (mysqld เป็นต้น) เพื่อป้องกันการทับซ้อนของ PORT ชนกันนะครับ ! ! !**
