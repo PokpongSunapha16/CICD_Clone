@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_URL: mysql://admin:1234@db:3307/ubonhooper
+    depends_on:
+      - db
+    volumes:
+      - .:/app
+      - /app/node_modules
+    restart: always
+
+  migrate:
+    image: node:22
+    working_dir: /app
+    volumes:
+      - ./:/app
+      - /app/node_modules
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: "mysql://admin:1234@db:3307/ubonhooper"
+    command: >
+      sh -c "npx prisma migrate dev --name init"
+
+  db:
+    image: mysql:8
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 12345
+      MYSQL_DATABASE: ubonhooper
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: 1234
+      MYSQL_TCP_PORT: 3307
+    ports:
+      - "3307:3307"
+    volumes:
+      - db_data:/var/lib/mysql
+
+volumes:
+  db_data:
