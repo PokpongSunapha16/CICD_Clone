@@ -20,7 +20,7 @@
 
 --- ขั้นตอนการดำเนินการใช้งานเว็บไซต์ ---
 
-* 1  cd CICD_Project
+* 1  cd CICD_Clone
 (ใช้ CD เข้าไปยัง Repo ที่ได้ทำการ Clone)
 
 * 2 docker compose up -d
