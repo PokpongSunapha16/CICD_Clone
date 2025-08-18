@@ -4,7 +4,7 @@ services:
     ports:
       - "3000:3000"
     environment:
-      DATABASE_URL: mysql://admin:1234@db:3307/ubonhooper
+      DATABASE_URL: postgresql://admin:1234@db:5432/ubonhooper
     depends_on:
       - db
     volumes:
@@ -12,33 +12,32 @@ services:
       - /app/node_modules
     restart: always
 
-  migrate:
-    image: node:22
-    working_dir: /app
-    volumes:
-      - ./:/app
-      - /app/node_modules
-    depends_on:
-      - db
-    environment:
-      DATABASE_URL: "mysql://admin:1234@db:3307/ubonhooper"
-    command: >
-      sh -c "npx prisma migrate dev --name init"
 
   db:
-    image: mysql:8
+    image: postgres:15
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: 12345
-      MYSQL_DATABASE: ubonhooper
-      MYSQL_USER: admin
-      MYSQL_PASSWORD: 1234
-      MYSQL_TCP_PORT: 3307
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_DB: ubonhooper
     ports:
-      - "3307:3307"
+      - "5432:5432"
     volumes:
-      - db_data:/var/lib/mysql
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - db_data:/var/lib/postgresql/data
 
 volumes:
   db_data:
+
+
+  # migrate:
+  #   image: node:22
+  #   working_dir: /app
+  #   volumes:
+  #     - ./:/app
+  #     - /app/node_modules
+  #   depends_on:
+  #     - db
+  #   environment:
+  #     DATABASE_URL: "postgresql://admin:1234@db:5432/ubonhooper"
+  #   command: >
+  #     sh -c "npx prisma migrate dev --name init"

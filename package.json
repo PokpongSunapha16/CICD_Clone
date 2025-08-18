@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "create_account": "node prisma/scripts/create_account.js"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.0",

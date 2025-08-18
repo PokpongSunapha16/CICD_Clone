@@ -1,5 +1,5 @@
 datasource db {
-  provider = "mysql"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -9,11 +9,11 @@ generator client {
 
 model User {
   id              Int      @id @default(autoincrement())
-  username        String   @unique @db.VarChar(100)
-  mail            String   @unique @db.VarChar(150)
-  password        String   @db.VarChar(255)
+  username        String   @unique @db.Text
+  mail            String   @unique @db.Text
+  password        String   @db.Text
   profile_picture String?  @db.Text
-  note            String?  @db.VarChar(150)
+  note            String?  @db.Text
   district        District @default(NONE)
   position        Position @default(NONE)
   status          Status   @default(OFFLINE)
@@ -41,9 +41,9 @@ model ContactInfo {
   userId Int  @unique
   user   User @relation("UserContact", fields: [userId], references: [id], onDelete: Cascade)
 
-  facebook  String? @db.VarChar(255)
-  instagram String? @db.VarChar(255)
-  line      String? @db.VarChar(255)
+  facebook  String? @db.Text
+  instagram String? @db.Text
+  line      String? @db.Text
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -53,7 +53,7 @@ model Gallery {
   id        Int      @id @default(autoincrement())
 user      User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
   user_id   Int
-  image     String   @db.LongText
+  image     String   @db.Text
   upload_at DateTime @default(now())
 }
 
@@ -75,9 +75,9 @@ model Review {
 model Blog {
   id        Int          @id @default(autoincrement())
   userId    Int
-  title     String       @db.VarChar(255)
-  slug      String       @unique @db.VarChar(255) // ใช้ slug เป็น URL identifier
-  picture   String?      @db.LongText
+  title     String       @db.Text
+  slug      String       @unique @db.Text // ใช้ slug เป็น URL identifier
+  picture   String?      @db.Text
   content   String       @db.Text
   category  BlogCategory
   createdAt DateTime     @default(now())
@@ -94,7 +94,7 @@ model BlogComment {
   id        Int      @id @default(autoincrement())
   blogId    Int
   userId    Int
-  content   String   @db.VarChar(1000)
+  content   String   @db.Text
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -132,7 +132,7 @@ model Team {
 
   creator     User     @relation("UserTeams", fields: [created_by], references: [id], onDelete: Cascade)
   created_at  DateTime @default(now())
-  name        String   @unique @db.VarChar(255)
+  name        String   @unique @db.Text
   team_logo   String?  @db.Text
   description String?  @db.Text
   start_at    DateTime
@@ -141,7 +141,7 @@ model Team {
 
   district District
   type     TeamType
-  court    String   @db.VarChar(255)
+  court    String   @db.Text
   map      String?  @db.Text
 
   members       TeamMember[]
@@ -201,8 +201,8 @@ model Announcement {
 
 model FeaturedAnnouncement {
   id        Int      @id @default(autoincrement())
-  title     String   @db.VarChar(255) 
-  image String @db.LongText //
+  title     String   @db.Text
+  image String @db.Text //
   linkUrl   String   @db.Text //
   details   String?  @db.Text //
   createdAt DateTime @default(now()) @updatedAt
