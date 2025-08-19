@@ -6,7 +6,7 @@ import { jwtVerify } from "jose";
 const prisma = new PrismaClient();
 const SECRET = new TextEncoder().encode(process.env.JWT_SECRET || "your-secret-key");
 
-export async function DELETE(req: Request, context: { params: { teamName?: string; userId?: string } }) {
+export async function DELETE(req: Request, context: any) {
   try {
     const { teamName, userId } = context.params; // ✅ ไม่ต้อง await ที่นี่
 

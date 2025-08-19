@@ -1,22 +1,16 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
-import { BlogCategory } from "@prisma/client"; // ✅ นำเข้า Enum
 
-export async function GET(req: Request, context: { params: { category: string } }) {
+export async function GET(
+  request: Request,
+  { params }: any
+) {
+
   try {
-    const { category } = context.params;
+    const { category } = await params
 
-    // ✅ แปลงค่า category เป็น Prisma Enum
-    const categoryEnum = category.toUpperCase() as keyof typeof BlogCategory;
-
-    // ✅ ตรวจสอบว่าหมวดหมู่ถูกต้องหรือไม่
-    if (!(categoryEnum in BlogCategory)) {
-      return NextResponse.json({ error: "Invalid category" }, { status: 400 });
-    }
-
-    // ✅ ใช้ Prisma Enum ในการค้นหา
     const blogs = await prisma.blog.findMany({
-      where: { category: BlogCategory[categoryEnum] },
+      where: { category: category },
       select: {
         id: true,
         title: true,

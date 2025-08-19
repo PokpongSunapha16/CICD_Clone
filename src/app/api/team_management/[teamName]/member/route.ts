@@ -14,7 +14,7 @@ function cleanTeamName(teamName: string): string {
     .trim();
 }
 
-export async function GET(req: Request, context: { params: { teamName?: string } }) {
+export async function GET(req: Request, context: any) {
   try {
     const { teamName } = context.params;
 

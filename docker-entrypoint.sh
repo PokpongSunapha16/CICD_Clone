@@ -1,16 +1,18 @@
 #!/bin/sh
 set -e
 
-echo "⏳ Waiting for Postgres..."
-until pg_isready -h db -U admin -d ubonhooper; do
-  sleep 2
-done
+echo "🚀 Running Prisma migrations (deploy)..."
+npx prisma migrate deploy
 
-echo "🚀 Running Prisma migrations..."
-npx prisma migrate dev --name init
+if [ "$SEED_ON_STARTUP" = "true" ]; then
+  echo "🌱 Seeding sample account (person1)..."
+  
+  npm run create_account || true
 
-echo "🌱 Running create_account..."
-npm run create_account
+else
+  echo "ℹ️ Skipping seed (SEED_ON_STARTUP not set to true)"
+fi
 
-echo "✅ Ready! Starting Next.js..."
+echo "✅ Ready! Starting Next.js in production mode..."
+
 exec "$@"

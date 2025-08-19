@@ -8,7 +8,7 @@ import TeamDetailPopup from "../components/TeamDetailPopup";
 interface Team {
   id: number;
   name: string;
-  description: string | null;
+  description?: string | null;
   team_logo: string | null;
   court: string;
   start_at: string;
@@ -230,37 +230,19 @@ export default function FindTeamPage() {
       {/* Popup แสดงข้อมูลทีม */}
 {isPopupOpen && selectedTeam && (
   <FindTeamPopup
-    team={selectedTeam}
-    onClose={handleClosePopup}
-    onViewTeam={(team) => handleViewTeamDetail(team)} // ✅ ต้องแน่ใจว่า `team` มี description
-    onRequestJoinTeam={async () => {
-      
-      try {
-        const response = await fetch(`/api/team_management/${encodeURIComponent(selectedTeam.name)}/join`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          credentials: "include",
-        });
-
-        const result = await response.json();
-
-        if (!response.ok) {
-          throw new Error(result.error || "Failed to join team");
-        }
-
-        alert(result.message); // ✅ แสดงข้อความสำเร็จ
-        window.location.reload(); // ✅ รีโหลดเพื่ออัปเดต UI
-      } catch (error) {
-        alert((error as Error).message ?? "เกิดข้อผิดพลาด!"); // ✅ แสดงข้อความจาก API หรือ fallback
-      }
-    }}
-  />      
+  team={selectedTeam}
+  onClose={handleClosePopup}
+  onViewTeam={(team) => handleViewTeamDetail(team)}/>
 )}
 
 
-    {isDetailPopupOpen && teamDetail && (
-      <TeamDetailPopup team={teamDetail} onClose={handleCloseDetailPopup} />
-    )}
+{isDetailPopupOpen && teamDetail && (
+  <TeamDetailPopup
+    team={{ ...teamDetail, description: teamDetail.description ?? null }}
+    onClose={handleCloseDetailPopup}
+  />
+)}
+
 
 
     </div>

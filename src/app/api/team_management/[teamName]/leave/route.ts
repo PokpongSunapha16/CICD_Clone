@@ -6,7 +6,7 @@ import { jwtVerify } from "jose";
 const prisma = new PrismaClient();
 const SECRET = new TextEncoder().encode(process.env.JWT_SECRET || "your-secret-key");
 
-export async function POST(req: NextRequest, { params }: { params: { teamName: string } }) {
+export async function POST(req: NextRequest, { params }: any) {
   try {
     const cookieStore = cookies();
     const token = (await cookieStore).get("token")?.value;

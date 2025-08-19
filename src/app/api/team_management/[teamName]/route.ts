@@ -6,7 +6,7 @@ import { jwtVerify } from "jose";
 const prisma = new PrismaClient();
 const SECRET = new TextEncoder().encode(process.env.JWT_SECRET || "your-secret-key");
 
-export async function GET(req: Request, context: { params: { teamName?: string } }) {
+export async function GET(req: Request, context: any) {
   try {
     // ✅ ใช้ await กับ context.params ให้ถูกต้อง
     const { teamName } = context.params;

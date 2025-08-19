@@ -5,7 +5,8 @@ import { jwtVerify } from "jose";
 
 const SECRET = new TextEncoder().encode(process.env.JWT_SECRET || "your-secret-key");
 
-export async function DELETE(req: Request, { params }: { params: { slug: string; id: string } }) {
+
+export async function DELETE(req: Request, { params }: any) {
   try {
     const commentId = parseInt(params.id, 10);
     if (isNaN(commentId)) {

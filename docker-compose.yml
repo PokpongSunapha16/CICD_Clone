@@ -4,14 +4,15 @@ services:
     ports:
       - "3000:3000"
     environment:
+      NODE_ENV: production
       DATABASE_URL: postgresql://admin:1234@db:5432/ubonhooper
+      JWT_SECRET: "your-secret-key"
+      SEED_ON_STARTUP: "true"
+  
     depends_on:
-      - db
-    volumes:
-      - .:/app
-      - /app/node_modules
+      db:
+        condition: service_healthy   # หรือ service_healthy ถ้าใส่ healthcheck ให้ db
     restart: always
-
 
   db:
     image: postgres:15
@@ -22,6 +23,13 @@ services:
       POSTGRES_DB: ubonhooper
     ports:
       - "5432:5432"
+    
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin -d ubonhooper || exit 1"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    
     volumes:
       - db_data:/var/lib/postgresql/data
 
@@ -29,15 +37,13 @@ volumes:
   db_data:
 
 
-  # migrate:
-  #   image: node:22
-  #   working_dir: /app
-  #   volumes:
-  #     - ./:/app
-  #     - /app/node_modules
-  #   depends_on:
-  #     - db
-  #   environment:
-  #     DATABASE_URL: "postgresql://admin:1234@db:5432/ubonhooper"
-  #   command: >
-  #     sh -c "npx prisma migrate dev --name init"
+
+    # แนะนำให้ปิดพอร์ตภายนอกถ้าเป็น production จริง
+    # ports:
+    #   - "5432:5432"
+    # healthcheck (ถ้าอยากให้ web รอจน db พร้อมจริง ๆ ก่อน start)
+    # healthcheck:
+    #   test: ["CMD-SHELL", "pg_isready -U admin -d ubonhooper || exit 1"]
+    #   interval: 5s
+    #   timeout: 5s
+    #   retries: 20

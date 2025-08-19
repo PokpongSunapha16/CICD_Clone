@@ -5,6 +5,12 @@ import { cookies } from "next/headers";
 
 const SECRET = new TextEncoder().encode(process.env.JWT_SECRET);
 
+interface Context {
+  params: {
+    teamName: string;
+  };
+}
+
 // ✅ ฟังก์ชันดึง user จาก JWT Token
 async function getUserFromToken(req: NextRequest) {
   try {
@@ -32,7 +38,7 @@ async function getUserFromToken(req: NextRequest) {
 }
 
 // ✅ GET - ดึงความคิดเห็นของทีม
-export async function GET(req: NextRequest, context: { params: { teamName: string } }) {
+export async function GET(req: NextRequest, context: any) {
   try {
     const { teamName } = context.params;
     const decodedTeamName = decodeURIComponent(teamName).replace(/-/g, " "); // ✅ แปลง "-" กลับเป็นช่องว่าง
@@ -64,7 +70,7 @@ export async function GET(req: NextRequest, context: { params: { teamName: strin
 
 
 // ✅ POST - โพสต์ความคิดเห็น
-export async function POST(req: NextRequest, context: { params: { teamName: string } }) {
+export async function POST(req: NextRequest, context: any) {
   try {
     const params = await Promise.resolve(context.params);
     const decodedTeamName = decodeURIComponent(params.teamName);

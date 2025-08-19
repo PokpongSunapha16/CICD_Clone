@@ -6,7 +6,7 @@ import { jwtVerify } from "jose";
 const prisma = new PrismaClient();
 const SECRET = new TextEncoder().encode(process.env.JWT_SECRET || "your-secret-key");
 
-export async function POST(req: Request, { params }: { params: { teamName?: string } }) {
+export async function POST(req: Request, { params }: any) {
   try {
     const teamName = params.teamName;
     
