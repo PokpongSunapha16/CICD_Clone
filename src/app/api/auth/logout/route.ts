@@ -26,14 +26,14 @@ export async function POST(req: NextRequest) {
     });
 
     // ✅ ลบ Token จาก Cookies
-    (await
-      // ✅ ลบ Token จาก Cookies
-      cookieStore).set("token", "", {
+    const response = NextResponse.json({ message: "Logout successful" });
+    response.cookies.set("token", "", {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      expires: new Date(0), // ✅ ตั้งให้หมดอายุทันที
+      secure: false,
+      expires: new Date(0), // หมดอายุทันที
       path: "/",
     });
+    return response;
 
     console.log("✅ Successfully logged out");
     return NextResponse.json({ message: "Logout successful" });
